@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div class="flex item-center gap-3 px-3 py-4">
+      <h1 class="px-10 py-3">join room</h1>
+      <button class="px-4 py-3 topic rounded-lg bg-red-500">Science</button>
+      <button class="px-4 py-3 topic rounded-lg bg-green-500">Sports</button>
+      <button class="px-4 py-3 topic rounded-lg bg-yellow-500">music</button>
+      <button class="px-4 py-3 topic rounded-lg bg-orange-500">politics</button>
+    </div>
+
+    <div class="flex item-center gap-3 px-3 py-4">
+      <h1 class="px-10 py-3">message room</h1>
+      <button class="px-4 py-3 send rounded-lg bg-red-500">Science</button>
+      <button class="px-4 py-3 send rounded-lg bg-green-500">Sports</button>
+      <button class="px-4 py-3 send rounded-lg bg-yellow-500">music</button>
+      <button class="px-4 py-3 send rounded-lg bg-orange-500">politics</button>
+    </div>
+
+    
+
+    <script
+      src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+      integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+      crossorigin="anonymous"
+    ></script>
+   <script>
+     const socket = io();
+     const topics = document.querySelectorAll(".topic");
+     const sends = document.querySelectorAll(".send");
+
+
+
+     topics.forEach(function(topic){
+        topic.addEventListener("click",  function (){
+            socket.emit("joinroom", topic.textContent.toLocaleLowerCase())
+        })
+     })
+
+     
+     sends.forEach(function(send){
+       send.addEventListener("click",  function (){
+            socket.emit("sendmessage", {id:send.textContent.toLocaleLowerCase(), message:"helloooooo"})
+        })
+     });
+
+     socket.on("message", function(data){
+        console.log(data);
+     })
+
+
+     
+   </script>
+
+  </body>
+</html>
